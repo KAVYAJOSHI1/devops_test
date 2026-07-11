@@ -1,33 +1,30 @@
-name: CI/CD Pipeline
+name: "node_gls_workshlop"
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
+      matrix: 
+        node-version: [18.x,20.x,22.x]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
-          cache-dependency-path: backend/package-lock.json
+          cache: 'npm'
 
       - name: Install dependencies
-        working-directory: backend
         run: npm ci
 
       - name: Deploy to Render
         if: github.ref == 'refs/heads/main'
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
