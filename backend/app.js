@@ -6,7 +6,7 @@ let port=9000;
 app.use(cors());
 
 app.get('/ping',(req,res) =>{
-    res.send({message:'Hello world'});
+    res.send({message:'Hello world lets test this'});
 });
 
 app.listen(port,()=>{console.log("Server is running")});
